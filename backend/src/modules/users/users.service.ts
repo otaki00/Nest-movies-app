@@ -24,6 +24,7 @@ export class UsersService {
       if (!user) {
         const user = new User(createUserDto);
         await this.entityManager.save(user);
+        return await this.findByEmail(createUserDto.email)
       }
       throw new UnauthorizedException('Credentials taken ..');
     } catch (error) {
