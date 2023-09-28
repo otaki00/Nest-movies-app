@@ -1,26 +1,31 @@
 import { Injectable } from '@nestjs/common';
 import { CreateWatchlistDto } from './dto/create-watchlist.dto';
 import { UpdateWatchlistDto } from './dto/update-watchlist.dto';
+import { CrudSharedOP } from 'src/shared/crud/crud.shared';
+import { Watchlist } from './entities/watchlist.entity';
 
 @Injectable()
 export class WatchlistsService {
+  constructor(private crudOp: CrudSharedOP) {}
+
   create(createWatchlistDto: CreateWatchlistDto) {
-    return 'This action adds a new watchlist';
+    const watchlist = new Watchlist(createWatchlistDto)
+    return this.crudOp.create(watchlist, Watchlist);
   }
 
   findAll() {
-    return `This action returns all watchlists`;
+    return this.crudOp.findAll(Watchlist);
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} watchlist`;
+    return this.crudOp.findOne(id, Watchlist);
   }
 
   update(id: number, updateWatchlistDto: UpdateWatchlistDto) {
-    return `This action updates a #${id} watchlist`;
+    return this.crudOp.update(id, updateWatchlistDto, Watchlist);
   }
 
   remove(id: number) {
-    return `This action removes a #${id} watchlist`;
+    return this.crudOp.remove(id, Watchlist);
   }
 }

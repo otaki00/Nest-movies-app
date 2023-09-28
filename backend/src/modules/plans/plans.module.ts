@@ -3,10 +3,11 @@ import { PlansService } from './plans.service';
 import { PlansController } from './plans.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Plan } from './entities/plan.entity';
+import { CrudSharedOP } from 'src/shared/crud/crud.shared';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Plan])],
   controllers: [PlansController],
-  providers: [PlansService],
+  providers: [PlansService, CrudSharedOP],
 })
 export class PlansModule {}

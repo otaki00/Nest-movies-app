@@ -1,1 +1,3 @@
-export class CreateUserViewDto {}
+export class CreateUserViewDto {
+    
+}

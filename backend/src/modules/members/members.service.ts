@@ -1,26 +1,62 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateMemberDto } from './dto/create-member.dto';
 import { UpdateMemberDto } from './dto/update-member.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Member } from './entities/member.entity';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class MembersService {
-  create(createMemberDto: CreateMemberDto) {
-    return 'This action adds a new member';
+  constructor(
+    @InjectRepository(Member)
+    private memberRepo: Repository<Member>
+  ){}
+
+  async create(createMemberDto: CreateMemberDto) {
+    try {
+      return await this.memberRepo.save(createMemberDto);
+    } catch (error) {
+      throw error
+    }
   }
 
-  findAll() {
-    return `This action returns all members`;
+  async findAll() {
+    try {
+      return await this.memberRepo.find()
+    } catch (error) {
+      throw error
+    }
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} member`;
+  async findOne(id: number) {
+    try {
+      return await this.memberRepo.findOne({
+        where: {
+          member_id: id
+        }
+      })
+    } catch (error) {
+      throw error
+    }
   }
 
-  update(id: number, updateMemberDto: UpdateMemberDto) {
-    return `This action updates a #${id} member`;
+  async update(id: number, updateMemberDto: UpdateMemberDto) {
+    try {
+      const member = await this.findOne(id)
+      if(member){
+        return this.memberRepo.merge(member, updateMemberDto)
+      }
+      throw new NotFoundException();
+    } catch (error) {
+      throw error
+    }
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} member`;
+  async remove(id: number) {
+    try {
+      return await this.memberRepo.delete(id)
+    } catch (error) {
+      throw error
+    }
   }
 }

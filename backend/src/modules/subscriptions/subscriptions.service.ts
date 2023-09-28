@@ -1,26 +1,31 @@
 import { Injectable } from '@nestjs/common';
 import { CreateSubscriptionDto } from './dto/create-subscription.dto';
 import { UpdateSubscriptionDto } from './dto/update-subscription.dto';
+import { CrudSharedOP } from 'src/shared/crud/crud.shared';
+import { Subscription } from './entities/subscription.entity';
 
 @Injectable()
 export class SubscriptionsService {
+  constructor(private crudOp: CrudSharedOP) {}
+
   create(createSubscriptionDto: CreateSubscriptionDto) {
-    return 'This action adds a new subscription';
+    const sub = new Subscription(createSubscriptionDto)
+    return this.crudOp.create(sub, Subscription);
   }
 
   findAll() {
-    return `This action returns all subscriptions`;
+    return this.crudOp.findAll(Subscription);
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} subscription`;
+    return this.crudOp.findOne(id, Subscription);
   }
 
   update(id: number, updateSubscriptionDto: UpdateSubscriptionDto) {
-    return `This action updates a #${id} subscription`;
+    return this.crudOp.update(id, updateSubscriptionDto, Subscription);
   }
 
   remove(id: number) {
-    return `This action removes a #${id} subscription`;
+    return this.crudOp.remove(id, Subscription);
   }
 }

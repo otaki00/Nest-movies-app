@@ -40,4 +40,8 @@ export class MovieRateView {
   @ManyToOne(() => User, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'user_id' })
   user;
+
+  constructor(mrv: Partial<MovieRateView>) {
+    Object.assign(this, mrv);
+  }
 }

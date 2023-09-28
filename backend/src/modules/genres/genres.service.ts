@@ -1,26 +1,91 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateGenreDto } from './dto/create-genre.dto';
 import { UpdateGenreDto } from './dto/update-genre.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Genre } from './entities/genre.entity';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class GenresService {
-  create(createGenreDto: CreateGenreDto) {
-    return 'This action adds a new genre';
+  constructor(
+    @InjectRepository(Genre)
+    private genresRepo: Repository<Genre>,
+  ) {}
+
+  async create(createGenreDto: CreateGenreDto) {
+    try {
+      const genre = new Genre(createGenreDto);
+      return await this.genresRepo.save(genre);
+    } catch (error) {
+      throw error;
+    }
   }
 
-  findAll() {
-    return `This action returns all genres`;
+  async findAll() {
+    try {
+      return await this.genresRepo.find();
+    } catch (error) {
+      throw error;
+    }
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} genre`;
+  async findGenres(genresNames: string[]) {
+    try {
+      const genres = await this.genresRepo
+        .createQueryBuilder('genre')
+        .where('genre.name IN (:...names)', { names: genresNames })
+        .getMany();
+      return genres;
+    } catch (error) {
+      throw error;
+    }
   }
 
-  update(id: number, updateGenreDto: UpdateGenreDto) {
-    return `This action updates a #${id} genre`;
+  async findOne(id: number) {
+    try {
+      return await this.genresRepo.findOne({
+        where: {
+          genre_id: id,
+        },
+      });
+    } catch (error) {
+      throw error;
+    }
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} genre`;
+  async findByName(name: string) {
+    try {
+      return await this.genresRepo.findOne({
+        where: {
+          type: name,
+        },
+      });
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async update(id: number, updateGenreDto: UpdateGenreDto) {
+    const genre = await this.genresRepo.findOne({
+      where: {
+        genre_id: id,
+      },
+    });
+    if (!genre) {
+      throw new NotFoundException(`Credentials Incorrect !`);
+    }
+    this.genresRepo.merge(genre, updateGenreDto);
+  }
+
+  async remove(id: number) {
+    try {
+      const genre = await this.genresRepo.findOneBy({
+        genre_id: id,
+      });
+
+      return genre;
+    } catch (error) {
+      throw error;
+    }
   }
 }

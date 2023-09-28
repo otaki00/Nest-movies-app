@@ -40,4 +40,8 @@ export class Subscription {
   @ManyToOne(() => Plan, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'plan_id' })
   plan;
+
+  constructor(object: Partial<Subscription>) {
+    Object.assign(this, object);
+  }
 }

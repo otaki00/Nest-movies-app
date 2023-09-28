@@ -1,9 +1,12 @@
+import { Genre } from 'src/modules/genres/entities/genre.entity';
 import {
   Entity,
   PrimaryGeneratedColumn,
   Column,
   CreateDateColumn,
   UpdateDateColumn,
+  JoinTable,
+  ManyToMany,
 } from 'typeorm';
 
 @Entity('movies')
@@ -22,4 +25,14 @@ export class Movie {
 
   @UpdateDateColumn({ type: 'timestamp' })
   updated_at;
+
+  @ManyToMany(() => Genre, (gener) => gener.genre_id)
+  @JoinTable({
+    name: 'movies_genre',
+  })
+  geners?: Genre[];
+
+  constructor(movie: Partial<Movie>) {
+    Object.assign(this, movie);
+  }
 }

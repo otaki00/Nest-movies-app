@@ -1,9 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { CreateUserWatchHistoryDto } from './dto/create-user_watch_history.dto';
 import { UpdateUserWatchHistoryDto } from './dto/update-user_watch_history.dto';
+import { CrudSharedOP } from 'src/shared/crud/crud.shared';
 
 @Injectable()
 export class UserWatchHistoryService {
+  constructor(private crudOp: CrudSharedOP) {}
+
   create(createUserWatchHistoryDto: CreateUserWatchHistoryDto) {
     return 'This action adds a new userWatchHistory';
   }

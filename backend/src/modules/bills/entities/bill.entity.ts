@@ -36,4 +36,8 @@ export class Bill {
   @ManyToOne(() => User, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'user_id' })
   user;
+
+    constructor(bill: Partial<Bill>) {
+    Object.assign(this, bill);
+    }
 }

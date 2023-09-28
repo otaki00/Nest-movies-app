@@ -29,6 +29,7 @@ export class Genre {
       'crime',
       'adventure',
     ],
+    // unique: true,
   })
   type;
 
@@ -43,4 +44,8 @@ export class Genre {
     name: 'movies_genre',
   })
   movies?: Movie[];
+
+  constructor(genre: Partial<Genre>) {
+    Object.assign(this, genre);
+  }
 }

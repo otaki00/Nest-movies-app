@@ -14,6 +14,7 @@ import { MoviesRatesViewsModule } from './movies_rates_views/movies_rates_views.
 import { UserViewsModule } from './user_views/user_views.module';
 import { UserWatchHistoryModule } from './user_watch_history/user_watch_history.module';
 import { UserWatchListsModule } from './user-watch-lists/user-watch-lists.module';
+import { GenresService } from './genres/genres.service';
 
 @Module({
   imports: [
@@ -34,5 +35,6 @@ import { UserWatchListsModule } from './user-watch-lists/user-watch-lists.module
     UserWatchHistoryModule,
     UserWatchListsModule,
   ],
+  providers: [GenresModule]
 })
 export class ModulesModule {}

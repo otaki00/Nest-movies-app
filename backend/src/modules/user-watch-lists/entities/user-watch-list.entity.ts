@@ -38,4 +38,8 @@ export class UserWatchlist {
   @ManyToOne(() => User, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'user_id' })
   user;
+
+  constructor(object: Partial<UserWatchlist>) {
+    Object.assign(this, object);
+  }
 }

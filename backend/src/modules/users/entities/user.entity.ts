@@ -1,5 +1,6 @@
 // import { PaymentMethod } from 'src/payment_methods/entities/payment_method.entity';
 import { PaymentMethod } from 'src/modules/payment_methods/entities/payment_method.entity';
+import { Watchlist } from 'src/modules/watchlists/entities/watchlist.entity';
 import {
   Entity,
   PrimaryGeneratedColumn,
@@ -12,6 +13,7 @@ import {
 
 @Entity('users')
 export class User {
+  [x: string]: any;
   @PrimaryGeneratedColumn()
   user_id;
 
@@ -31,13 +33,16 @@ export class User {
   @JoinColumn({ name: 'payment_method_id' })
   payment_method;
 
+  @ManyToOne(() => Watchlist, (watchlist)=>watchlist.user)
+  watchlists: Watchlist[]
+
   @CreateDateColumn()
   created_at;
 
   @UpdateDateColumn()
   updated_at;
 
-  constructor(item: Partial<User>) {
-    Object.assign(this, item);
+  constructor(user: Partial<User>) {
+    Object.assign(this, user);
   }
 }

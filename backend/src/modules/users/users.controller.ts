@@ -13,33 +13,37 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { JwtGuard } from 'src/auth/guard/jwt.guard';
 
-@Controller('users')
-export class UsersController {
-  constructor(private readonly usersService: UsersService) {}
-
-  @Post()
-  async create(@Body() createUserDto: CreateUserDto) {
-    return await this.usersService.create(createUserDto);
-  }
-
-  @Get()
-  findAll() {
-    return this.usersService.findAll();
-  }
 
   @UseGuards(JwtGuard)
-  @Get(':id')
-  async findOne(@Param('id') id: string) {
-    return await this.usersService.findOneById(+id);
-  }
+  @Controller('users')
+  export class UsersController {
+    constructor(private readonly usersService: UsersService) {}
 
-  @Patch(':id')
-  async update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-    return await this.usersService.update(+id, updateUserDto);
-  }
+    @Post()
+    async create(@Body() createUserDto: CreateUserDto) {
+      return await this.usersService.create(createUserDto);
+    }
 
-  @Delete(':id')
-  async remove(@Param('id') id: string) {
-    return await this.usersService.remove(+id);
+    @Get()
+    findAll() {
+      return this.usersService.findAll();
+    }
+
+    @Get(':id')
+    async findOne(@Param('id') id: string) {
+      return await this.usersService.findOneById(+id);
+    }
+
+    @Patch(':id')
+    async update(
+      @Param('id') id: string,
+      @Body() updateUserDto: UpdateUserDto,
+    ) {
+      return await this.usersService.update(+id, updateUserDto);
+    }
+
+    @Delete(':id')
+    async remove(@Param('id') id: string) {
+      return await this.usersService.remove(+id);
+    }
   }
-}

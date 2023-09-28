@@ -14,7 +14,7 @@ export class Director {
   @PrimaryGeneratedColumn()
   director_id;
 
-  @Column({ type: 'varchar', length: 70 })
+  @Column({ type: 'varchar', length: 70, unique: true})
   name;
 
   @CreateDateColumn({ type: 'timestamp' })

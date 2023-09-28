@@ -25,4 +25,8 @@ export class Plan {
 
   @UpdateDateColumn({ type: 'timestamp' })
   updated_at;
+
+  constructor(object: Partial<Plan>) {
+    Object.assign(this, object);
+  }
 }

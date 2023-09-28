@@ -15,7 +15,7 @@ export class Member {
   @PrimaryGeneratedColumn()
   member_id;
 
-  @Column({ type: 'varchar', length: 40 })
+  @Column({ type: 'varchar', length: 40, unique: true })
   name;
 
   @Column({ type: 'enum', enum: ['actor', 'voice actor'] })

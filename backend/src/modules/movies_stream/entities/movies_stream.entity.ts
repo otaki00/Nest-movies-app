@@ -35,4 +35,8 @@ export class MovieStream {
   @ManyToOne(() => Movie, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'movie_id' })
   movie;
+
+    constructor(ms: Partial<MovieStream>) {
+    Object.assign(this, ms);
+    }
 }

@@ -22,4 +22,8 @@ export class PaymentMethod {
 
   @UpdateDateColumn({ type: 'timestamp' })
   updated_at;
+
+  constructor(object: Partial<PaymentMethod>) {
+    Object.assign(this, object);
+  }
 }

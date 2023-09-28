@@ -34,4 +34,8 @@ export class UserWatchHistory {
   @ManyToOne(() => Movie, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'movie_id' })
   movie;
+
+  constructor(object: Partial<UserWatchHistory>) {
+    Object.assign(this, object);
+  }
 }

@@ -1,26 +1,31 @@
 import { Injectable } from '@nestjs/common';
 import { CreatePaymentMethodDto } from './dto/create-payment_method.dto';
 import { UpdatePaymentMethodDto } from './dto/update-payment_method.dto';
+import { CrudSharedOP } from 'src/shared/crud/crud.shared';
+import { PaymentMethod } from './entities/payment_method.entity';
 
 @Injectable()
 export class PaymentMethodsService {
+  constructor(private crudOp: CrudSharedOP) {}
+
   create(createPaymentMethodDto: CreatePaymentMethodDto) {
-    return 'This action adds a new paymentMethod';
+    const payMethod = new PaymentMethod(createPaymentMethodDto)
+    return this.crudOp.create(payMethod, PaymentMethod);
   }
 
   findAll() {
-    return `This action returns all paymentMethods`;
+    return this.crudOp.findAll(PaymentMethod);
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} paymentMethod`;
+    return this.crudOp.findOne(id, PaymentMethod);
   }
 
   update(id: number, updatePaymentMethodDto: UpdatePaymentMethodDto) {
-    return `This action updates a #${id} paymentMethod`;
+    return this.crudOp.update(id , updatePaymentMethodDto, PaymentMethod);
   }
 
   remove(id: number) {
-    return `This action removes a #${id} paymentMethod`;
+    return this.crudOp.remove(id, PaymentMethod);
   }
 }

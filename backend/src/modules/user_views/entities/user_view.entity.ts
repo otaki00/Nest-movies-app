@@ -34,4 +34,8 @@ export class UserView {
   @ManyToOne(() => User, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'user_id' })
   user;
+
+  constructor(object: Partial<UserView>) {
+    Object.assign(this, object);
+  }
 }
